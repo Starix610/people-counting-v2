@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>WebSocket Test</title>
+    <script type="text/javascript">
+        var socket;
+        if (!window.WebSocket) {
+            window.WebSocket = window.MozWebSocket;
+        }
+        if (window.WebSocket) {
+            socket = new WebSocket("ws://www.starix.top:8051/data");
+            socket.onmessage = function (event) {
+                var ta = document.getElementById('responseText');
+                ta.value += event.data + "\r\n";
+            };
+            socket.onopen = function (event) {
+                var ta = document.getElementById('responseText');
+                ta.value = "WebSocket连接建立成功！" + "\r\n";
+
+            };
+            socket.onclose = function (event) {
+                var ta = document.getElementById('responseText');
+                ta.value = "";
+                ta.value = "WebSocket连接关闭" + "\r\n";
+            };
+        } else {
+            alert("您的浏览器不支持WebSocket协议！");
+        }
+
+        function send(message) {
+            if (!window.WebSocket) {
+                return;
+            }
+            if (socket.readyState == WebSocket.OPEN) {
+                socket.send(message);
+            } else {
+                alert("WebSocket连接没有建立成功！");
+            }
+
+        }
+
+    </script>
+</head>
+<body>
+<form onSubmit="return false;">
+    <input type="text" name="message" value="这里输入消息"/> <br/>
+    <br/> <input type="button" value="发送WebSocket消息"
+                 onClick="send(this.form.message.value)"/>
+    <hr color="blue"/>
+    <h3>服务端返回的应答消息</h3>
+    <textarea id="responseText" style="width: 1024px;height: 300px;"></textarea>
+</form>
+</body>

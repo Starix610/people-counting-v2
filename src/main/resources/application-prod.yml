@@ -1,0 +1,21 @@
+spring:
+  #暂时使用springboot2.0默认的HikariCP数据源,不做配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/people_counting_v2?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: root
+    password: 646722
+
+aliyun:
+  accessKeyId: LTAIWnKYhXLBdyZ5
+  secret: 9TqODmBx9tgYPjaUK5zczLQ68m6RQu
+  # 阿里云短信配置
+  sms:
+    signName: 微云信息团队
+    templateCode: SMS_171117367
+    expire: 5  #验证码在redis中的过期时间，单位:minutes
+    keyPrefix: #验证码在redis中存储的key前缀
+      login: SMS_CODE_LOGIN
+      register: SMS_CODE_REGISTER
+      setPassword: SMS_CODE_SET_PASSWORD
+      updateTelephone: SMS_CODE_UPDATE_TELEPHONE
