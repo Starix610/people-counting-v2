@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 /**
  * (TbThreshold)表服务实现类
  *
- * @author Tobu
- * @since 2020-06-15 00:40:06
+ * @author Starix
+ * @since 2020-06-15 12:53:20
  */
 @Service
 public class TbThresholdServiceImpl extends ServiceImpl<TbThresholdMapper, TbThreshold> implements TbThresholdService {

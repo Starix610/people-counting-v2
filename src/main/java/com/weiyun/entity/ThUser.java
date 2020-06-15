@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * (TbThreshold)表实体类
+ * (ThUser)表实体类
  *
  * @author Starix
  * @since 2020-06-15 12:47:30
@@ -18,12 +18,19 @@ import lombok.EqualsAndHashCode;
 @Data
 @TableName
 @EqualsAndHashCode(callSuper=true)
-public class TbThreshold extends Model<TbThreshold> {
+public class ThUser extends Model<ThUser> {
+
     @TableId(type = IdType.AUTO)
     private Integer id;
-    //区域代码
-    private Integer areaCode;
-    //人数阈值
-    private Integer threshold;
+    
+    private Long userId;
+    
+    private String username;
+    
+    private String password;
+    
+    private String telephone;
+    
+    private String role;
 
 }

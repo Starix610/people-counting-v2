@@ -19,7 +19,7 @@ import java.util.Optional;
  * @author Starix
  * @date 2020-06-07 19:44
  */
-@Component
+//@Component
 @Slf4j
 public class DetectedResultConsumer {
 
