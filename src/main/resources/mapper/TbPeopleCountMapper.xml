@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.weiyun.mapper.TbPeopleCountMapper">
+    <resultMap id="baseResultMap" type="com.weiyun.entity.TbPeopleCount">
+        <id column="id" property="id"/>
+        <result column="area_code" property="areaCode"/>
+        <result column="detected_count" property="detectedCount"/>
+        <result column="overflow" property="overflow"/>
+        <result column="detected_image" property="detectedImage"/>
+        <result column="origin_image" property="originImage"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="selectCommonPeopleCountListData" resultMap="baseResultMap">
+        select * from tb_people_count limit 10
+    </select>
+
+
+</mapper>

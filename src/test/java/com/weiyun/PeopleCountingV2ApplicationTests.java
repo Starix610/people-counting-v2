@@ -1,9 +1,4 @@
 package com.weiyun;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
 import com.weiyun.entity.TbPeopleCount;
 import com.weiyun.service.TbPeopleCountService;
 import org.assertj.core.util.Lists;
@@ -12,6 +7,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -45,13 +44,10 @@ public class PeopleCountingV2ApplicationTests {
     }
 
 
-    public static void main(String[] args) {
-        Calendar calendar = Calendar.getInstance();
-        System.out.println(calendar.getTime());
-        System.out.println(calendar.getTime());
-        for (int i = 0; i < 5; i++) {
-            System.out.println(new Random().nextInt(500));
-        }
+    // TODO: 2020-06-18 单测待修改
+    @Test
+    public void testPeopleCountService(){
+        peopleCountService.queryCommonData(null);
     }
 
 }
