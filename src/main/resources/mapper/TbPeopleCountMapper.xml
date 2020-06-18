@@ -12,9 +12,10 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
-    <select id="selectCommonPeopleCountListData" parameterType="com.weiyun.dto.request.CommonQueryConditionDTO" resultMap="baseResultMap">
+    <select id="selectCommonPeopleCountListData" resultMap="baseResultMap">
         select * from tb_people_count
-        where
+        where create_time
+        between #{startDate} and #{endDate}
     </select>
 
 

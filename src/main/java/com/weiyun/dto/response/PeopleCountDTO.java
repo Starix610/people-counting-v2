@@ -13,6 +13,14 @@ import java.util.Date;
 @Data
 public class PeopleCountDTO {
 
+    private Integer current;
+
+    private Integer size;
+
+    private Integer total;
+
+    private Integer pages;
+
     private Integer id;
     //区域代码
     private Integer areaCode;

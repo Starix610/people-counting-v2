@@ -1,21 +1,23 @@
 package com.weiyun;
-import com.weiyun.dto.response.PeopleCountDTO;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.weiyun.dto.request.CommonQueryConditionDTO;
 import com.weiyun.entity.TbPeopleCount;
 import com.weiyun.service.TbPeopleCountService;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-public class PeopleCountingV2ApplicationTests {
+/**
+ * @author Starix
+ * @date 2020-06-18 23:15
+ */
+public class PeopleCountServiceTests extends BaseTest {
 
     @Autowired
     private TbPeopleCountService peopleCountService;
@@ -44,12 +46,26 @@ public class PeopleCountingV2ApplicationTests {
         peopleCountService.saveBatch(list);
     }
 
-
-    // TODO: 2020-06-18 单测待修改
     @Test
-    public void testPeopleCountService(){
-        List<PeopleCountDTO> peopleCountDTOList = peopleCountService.queryCommonData(null);
-        System.out.println(peopleCountDTOList);
+    public void testDateConverter(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2018, 2, 5, 8, 0, 0);
+        Date date = calendar.getTime();
+        System.out.println(date);
     }
 
+    @Test
+    public void testQueryCommonData() {
+        CommonQueryConditionDTO conditionDTO = new CommonQueryConditionDTO();
+        conditionDTO.setYear(2020);
+        conditionDTO.setMonth(6);
+        conditionDTO.setDay(15);
+        conditionDTO.setStartHour(14);
+        conditionDTO.setEndHour(16);
+        conditionDTO.setCurrent(1);
+        conditionDTO.setSize(10);
+        IPage<TbPeopleCount> iPage = peopleCountService.queryCommonData(conditionDTO);
+        iPage.getRecords().forEach(System.out::println);
+
+    }
 }

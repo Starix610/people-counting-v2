@@ -4,7 +4,7 @@ package com.weiyun.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.weiyun.dto.request.CommonQueryConditionDTO;
-import com.weiyun.dto.response.PeopleCountDTO;
+import com.weiyun.entity.TbPeopleCount;
 import com.weiyun.response.CommonResult;
 import com.weiyun.service.TbPeopleCountService;
 import io.swagger.annotations.Api;
@@ -50,8 +50,8 @@ public class DataController {
             //多个校验错误只返回第一个错误信息给前端
             return CommonResult.validateFailed(allErrors.get(0).getDefaultMessage());
         }
-        IPage<PeopleCountDTO> list = peopleCountService.queryCommonData(commonQueryConditionReqVO);
-        return CommonResult.success();
+        IPage<TbPeopleCount> iPage = peopleCountService.queryCommonData(commonQueryConditionReqVO);
+        return CommonResult.success(iPage);
     }
 
 }
