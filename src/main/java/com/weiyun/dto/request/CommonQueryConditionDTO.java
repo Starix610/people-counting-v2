@@ -32,4 +32,10 @@ public class CommonQueryConditionDTO {
     @ApiModelProperty("结束小时")
     private String endHour;
 
+    @ApiModelProperty("当前第几页。缺省值：默认第1页。")
+    private Integer current = 1;
+
+    @ApiModelProperty("每页条数。缺省值：默认10条。")
+    private Integer size = 10;
+
 }

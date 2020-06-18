@@ -12,8 +12,9 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
-    <select id="selectCommonPeopleCountListData" resultMap="baseResultMap">
-        select * from tb_people_count limit 10
+    <select id="selectCommonPeopleCountListData" parameterType="com.weiyun.dto.request.CommonQueryConditionDTO" resultMap="baseResultMap">
+        select * from tb_people_count
+        where
     </select>
 
 

@@ -1,5 +1,6 @@
 package com.weiyun.dto.response;
 
+import com.weiyun.entity.TbPeopleCount;
 import lombok.Data;
 
 import java.util.Date;
@@ -25,4 +26,15 @@ public class PeopleCountDTO {
     private String originImage;
     //记录时间
     private Date createTime;
+
+    public PeopleCountDTO builderPeopleCountDTO(TbPeopleCount peopleCount){
+        this.setId(peopleCount.getId());
+        this.setAreaCode(peopleCount.getAreaCode());
+        this.setDetectedCount(peopleCount.getDetectedCount());
+        this.setOverflow(peopleCount.getOverflow());
+        this.setDetectedImage(peopleCount.getDetectedImage());
+        this.setOriginImage(peopleCount.getOriginImage());
+        this.setCreateTime(peopleCount.getCreateTime());
+        return this;
+    }
 }
