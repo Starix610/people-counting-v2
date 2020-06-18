@@ -10,7 +10,6 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Optional;
@@ -48,14 +47,14 @@ public class DetectedResultConsumer {
         Optional message = Optional.ofNullable(record.value());
         if (message.isPresent()){
             String msg = message.get().toString();
-            log.info("Topic: face_detection, Message: {}, Offset: {}", msg, record.offset());
             JSONObject jsonObject = JSON.parseObject(msg);
             if (jsonObject.getInteger("detected_count") >= threshold){
                 // 标记超出阈值
                 jsonObject.put("overflow", true);
             }
-            WebSocketUtil.sendMessageToAll(jsonObject.toJSONString());
+            log.info("Topic: face_detection, Offset: {}, Message: {}", record.offset(), jsonObject.toJSONString());
             faceDetectionResultData = jsonObject.toJSONString();
+            WebSocketUtil.sendMessageToAll(faceDetectionResultData);
             ack.acknowledge();
         }
     }
@@ -65,9 +64,14 @@ public class DetectedResultConsumer {
     public void densityGraphicResult(ConsumerRecord<?, ?> record, Acknowledgment ack){
         Optional message = Optional.ofNullable(record.value());
         if (message.isPresent()){
-            Object msg = message.get();
-            log.info("Topic: density_graphic, Message: {}, Offset: {}", msg, record.offset());
-            densityGraphicResultData = msg.toString();
+            String msg = message.get().toString();
+            JSONObject jsonObject = JSON.parseObject(msg);
+            if (jsonObject.getInteger("detected_count") >= threshold){
+                // 标记超出阈值
+                jsonObject.put("overflow", true);
+            }
+            log.info("Topic: density_graphic, Offset: {}, Message: {}", record.offset(), jsonObject.toJSONString());
+            densityGraphicResultData = jsonObject.toJSONString();
             WebSocketUtil.sendMessageToAll(densityGraphicResultData);
             ack.acknowledge();
         }
