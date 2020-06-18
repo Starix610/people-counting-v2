@@ -1,4 +1,5 @@
 package com.weiyun;
+import com.weiyun.dto.response.PeopleCountDTO;
 import com.weiyun.entity.TbPeopleCount;
 import com.weiyun.service.TbPeopleCountService;
 import org.assertj.core.util.Lists;
@@ -47,7 +48,8 @@ public class PeopleCountingV2ApplicationTests {
     // TODO: 2020-06-18 单测待修改
     @Test
     public void testPeopleCountService(){
-        peopleCountService.queryCommonData(null);
+        List<PeopleCountDTO> peopleCountDTOList = peopleCountService.queryCommonData(null);
+        System.out.println(peopleCountDTOList);
     }
 
 }

@@ -1,11 +1,10 @@
 package com.weiyun.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.weiyun.dto.request.CommonQueryConditionDTO;
 import com.weiyun.dto.response.PeopleCountDTO;
 import com.weiyun.entity.TbPeopleCount;
-
-import java.util.List;
 
 /**
  * (TbPeopleCount)表服务接口
@@ -15,5 +14,5 @@ import java.util.List;
  */
 public interface TbPeopleCountService extends IService<TbPeopleCount> {
 
-    List<PeopleCountDTO> queryCommonData(CommonQueryConditionDTO commonQueryConditionReqVO);
+    IPage<PeopleCountDTO> queryCommonData(CommonQueryConditionDTO commonQueryConditionReqVO);
 }

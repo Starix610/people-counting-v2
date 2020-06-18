@@ -1,10 +1,10 @@
 package com.weiyun.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weiyun.dto.request.CommonQueryConditionDTO;
 import com.weiyun.entity.TbPeopleCount;
-
-import java.util.List;
 
 /**
  * (TbPeopleCount)表数据库访问层
@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface TbPeopleCountMapper extends BaseMapper<TbPeopleCount> {
 
-    List<TbPeopleCount> selectCommonPeopleCountListData(CommonQueryConditionDTO commonQueryConditionReqVO);
+    IPage<TbPeopleCount> selectCommonPeopleCountListData(Page<TbPeopleCount> page, CommonQueryConditionDTO commonQueryConditionReqVO);
 }
