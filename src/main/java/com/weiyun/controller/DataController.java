@@ -31,7 +31,7 @@ import java.util.List;
  *  @author shiwenjie
  *  @created 2020/6/16 10:54 上午
  **/
-@Api(tags = "数据接口")
+@Api(tags = "统计数据接口")
 @RestController
 @RequestMapping("/data")
 public class DataController {
@@ -41,7 +41,7 @@ public class DataController {
 
     @PostMapping("/query")
     @ApiOperation(value = "人流量数据普通查询",notes = "查询某年某月某日某小时段内人流量数据列表（每两分钟）")
-    public CommonResult commonQuery(
+    public CommonResult commonDataQuery(
             @RequestBody
             @ApiParam(name = "commonQueryConditionReqVO", value = "查询条件", required = true)
             @Valid CommonQueryConditionDTO commonQueryConditionReqVO, BindingResult bindingResult){

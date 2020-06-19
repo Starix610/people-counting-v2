@@ -11,4 +11,5 @@ import com.weiyun.entity.TbThreshold;
  */
 public interface TbThresholdService extends IService<TbThreshold> {
 
+    void updateThreshold(Integer areaCode, Integer threshold);
 }

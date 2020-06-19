@@ -29,6 +29,7 @@ public class SaveDetectionResultTask {
 
     // TODO: 2020-06-19 模拟人流量检测结果推送时用到，后续需要删除
     private static Integer threshold;
+
     @Autowired
     private TbThresholdService thresholdService;
 
@@ -75,6 +76,11 @@ public class SaveDetectionResultTask {
         }
         log.info("Topic: face_detection, Message: {}", jsonObject.toJSONString());
         WebSocketUtil.sendMessageToAll(jsonObject.toJSONString());
+    }
+
+    public static void updateThreshold(Integer threshold) {
+        SaveDetectionResultTask.threshold = threshold;
+        log.info("threshold更新，当前值: {}", threshold);
     }
 
 }

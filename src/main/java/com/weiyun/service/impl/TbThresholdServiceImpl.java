@@ -1,10 +1,14 @@
 package com.weiyun.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.weiyun.mapper.TbThresholdMapper;
 import com.weiyun.entity.TbThreshold;
+import com.weiyun.mapper.TbThresholdMapper;
 import com.weiyun.service.TbThresholdService;
+import com.weiyun.task.SaveDetectionResultTask;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 /**
  * (TbThreshold)表服务实现类
@@ -15,4 +19,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class TbThresholdServiceImpl extends ServiceImpl<TbThresholdMapper, TbThreshold> implements TbThresholdService {
 
+    @Override
+    @Transactional
+    public void updateThreshold(Integer areaCode, Integer threshold) {
+        TbThreshold record = this.lambdaQuery().eq(TbThreshold::getAreaCode, areaCode).one();
+        if (record != null){
+            record.setThreshold(threshold);
+            record.setUpdateTime(new Date());
+        }else {
+            record = new TbThreshold();
+            record.setAreaCode(areaCode);
+            record.setThreshold(threshold);
+        }
+        this.saveOrUpdate(record);
+        // TODO: 2020-06-19 更新阈值配置
+        SaveDetectionResultTask.updateThreshold(threshold);
+    }
 }

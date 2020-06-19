@@ -86,4 +86,8 @@ public class DetectedResultConsumer {
         return densityGraphicResultData;
     }
 
+    public static void updateThreshold(Integer threshold) {
+        DetectedResultConsumer.threshold = threshold;
+        log.info("threshold更新，当前值: {}", threshold);
+    }
 }
