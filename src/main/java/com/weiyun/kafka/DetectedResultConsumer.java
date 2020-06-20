@@ -12,6 +12,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 
 import javax.annotation.PostConstruct;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -25,7 +27,6 @@ public class DetectedResultConsumer {
 
     // 保存当前检测结果到本地变量中，方便后续做定时保存
     private static String faceDetectionResultData = "";
-
     private static String densityGraphicResultData = "";
 
     private static Integer threshold;
@@ -52,10 +53,12 @@ public class DetectedResultConsumer {
                 // 标记超出阈值
                 jsonObject.put("overflow", true);
             }
-            log.info("Topic: face_detection, Offset: {}, Message: {}", record.offset(), jsonObject.toJSONString());
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            jsonObject.put("time", time);
             faceDetectionResultData = jsonObject.toJSONString();
             WebSocketUtil.sendMessageToAll(faceDetectionResultData);
             ack.acknowledge();
+            log.info("Topic: face_detection, Offset: {}, Message: {}", record.offset(), faceDetectionResultData);
         }
     }
 
@@ -70,10 +73,12 @@ public class DetectedResultConsumer {
                 // 标记超出阈值
                 jsonObject.put("overflow", true);
             }
-            log.info("Topic: density_graphic, Offset: {}, Message: {}", record.offset(), jsonObject.toJSONString());
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            jsonObject.put("time", time);
             densityGraphicResultData = jsonObject.toJSONString();
             WebSocketUtil.sendMessageToAll(densityGraphicResultData);
             ack.acknowledge();
+            log.info("Topic: density_graphic, Offset: {}, Message: {}", record.offset(), densityGraphicResultData);
         }
     }
 
