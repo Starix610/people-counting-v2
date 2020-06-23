@@ -29,7 +29,7 @@ public class SaveDetectionResultTask {
 
     // TODO: 2020-06-19 模拟人流量检测结果推送时用到，后续需要删除
     private static Integer threshold;
-    // 保存当前检测结果到本地变量中，方便后续做定时保存
+
     private static String faceDetectionResultData = "";
 
     @Autowired
