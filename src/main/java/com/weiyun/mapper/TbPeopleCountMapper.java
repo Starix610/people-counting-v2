@@ -3,10 +3,12 @@ package com.weiyun.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.weiyun.dto.response.StatisticsDataDTO;
 import com.weiyun.entity.TbPeopleCount;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * (TbPeopleCount)表数据库访问层
@@ -16,6 +18,12 @@ import java.util.Date;
  */
 public interface TbPeopleCountMapper extends BaseMapper<TbPeopleCount> {
 
-    IPage<TbPeopleCount> selectCommonPeopleCountListData(Page<TbPeopleCount> page, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    IPage<TbPeopleCount> selectHistoryPeopleCountList(Page<TbPeopleCount> page,
+                                                      @Param("areaCode") Integer areaCode,
+                                                      @Param("startTime") Long startTime,
+                                                      @Param("endTime") Long endTime);
 
+    List<StatisticsDataDTO> selectStatisticsDataList(@Param("areaCode") Integer areaCode, @Param("interval") Integer interval);
+
+    Map<String, Integer> selectMaxAndMinCountByAreaCode(Integer areaCode);
 }

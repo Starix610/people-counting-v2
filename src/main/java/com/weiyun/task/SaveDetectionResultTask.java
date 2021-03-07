@@ -1,10 +1,9 @@
 package com.weiyun.task;
 
 import com.alibaba.fastjson.JSONObject;
-import com.weiyun.entity.TbThreshold;
-import com.weiyun.netty.common.WebSocketUtil;
-import com.weiyun.service.TbPeopleCountService;
-import com.weiyun.service.TbThresholdService;
+import com.weiyun.entity.TbArea;
+import com.weiyun.netty.utils.WebSocketUtil;
+import com.weiyun.service.TbAreaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -24,28 +24,23 @@ import java.util.Random;
 @Slf4j
 public class SaveDetectionResultTask {
 
-    @Autowired
-    private TbPeopleCountService peopleCountService;
-
-    // TODO: 2020-06-19 模拟人流量检测结果推送时用到，后续需要删除
-    private static Integer threshold;
-
     private static String faceDetectionResultData = "";
 
+    // TODO: 2020-06-19 模拟人流量检测结果推送时用到，后续需要删除
+    private static List<TbArea> areaList;
+
     @Autowired
-    private TbThresholdService thresholdService;
+    private TbAreaService areaService;
 
     @PostConstruct
     public void initThreshold(){
-        // TODO: 2020-06-15 暂时只处理一个区域的一个阈值，后续可能需要重构
-        TbThreshold th = thresholdService.lambdaQuery().select(TbThreshold::getThreshold).one();
-        threshold = th.getThreshold();
-        log.info("当前threshold: {}", threshold);
+        areaList = areaService.lambdaQuery().list();
+        log.info("当前areaList: {}", areaList);
     }
 
 
     // 每两分钟整记录一次
-    @Scheduled(cron = "0 0/2 * * * ?")
+    // @Scheduled(cron = "0 0/2 * * * ?")
     public void signIntask(){
         // TODO: 2020-06-20 此处模拟两分钟数据落库与推送
         JSONObject jsonObject = JSONObject.parseObject(faceDetectionResultData);
@@ -69,28 +64,31 @@ public class SaveDetectionResultTask {
 
     // 模拟每两秒推送一次检测结果数据
     @Scheduled(fixedRate = 2000)
-    public void websocketDataMock(){
-        //随机人数
-        Integer detectedCount = new Random().nextInt(500);
-        String image = "https://images.unsplash.com/photo-1592107761705-30a1bbc641e7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80";
-        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("detected_count", detectedCount);
-        jsonObject.put("original_image", image);
-        jsonObject.put("detected_image", image);
-        jsonObject.put("time", time);
-        if (jsonObject.getInteger("detected_count") >= threshold){
-            // 标记超出阈值
-            jsonObject.put("overflow", true);
+    public void websocketDataMock() {
+        for (TbArea area : areaList) {
+            //随机人数
+            Integer detectedCount = new Random().nextInt(500);
+            String image = "https://images.unsplash.com/photo-1592107761705-30a1bbc641e7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80";
+            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("area_code", area.getAreaCode());
+            jsonObject.put("detected_count", detectedCount);
+            jsonObject.put("original_image", image);
+            jsonObject.put("detected_image", image);
+            jsonObject.put("time", time);
+            if (jsonObject.getInteger("detected_count") >= area.getThreshold()){
+                // 标记超出阈值
+                jsonObject.put("overflow", true);
+            }
+            faceDetectionResultData = jsonObject.toJSONString();
+            WebSocketUtil.sendMessageToAll(faceDetectionResultData);
+            //log.info("Topic: face_detection, Message: {}", faceDetectionResultData);
         }
-        faceDetectionResultData = jsonObject.toJSONString();
-        WebSocketUtil.sendMessageToAll(faceDetectionResultData);
-        log.info("Topic: face_detection, Message: {}", faceDetectionResultData);
     }
 
-    public static void updateThreshold(Integer threshold) {
-        SaveDetectionResultTask.threshold = threshold;
-        log.info("threshold更新，当前值: {}", threshold);
+    public void updateThreshold() {
+        initThreshold();
+        log.info("areaList更新，当前值: {}", areaList);
     }
 
 }

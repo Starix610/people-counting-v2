@@ -13,6 +13,9 @@
             socket.onmessage = function (event) {
                 var ta = document.getElementById('responseText');
                 ta.value += event.data + "\r\n";
+                if (ta.value.length > 20000){
+                    ta.value = "";
+                }
             };
             socket.onopen = function (event) {
                 var ta = document.getElementById('responseText');

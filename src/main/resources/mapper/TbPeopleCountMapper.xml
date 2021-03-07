@@ -12,10 +12,35 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
-    <select id="selectCommonPeopleCountListData" resultMap="baseResultMap">
+    <select id="selectHistoryPeopleCountList" resultMap="baseResultMap">
         select * from tb_people_count
-        where create_time
-        between #{startDate} and #{endDate}
+        where
+        area_code = #{areaCode}
+        and
+        unix_timestamp(create_time)*1000 between #{startTime} and #{endTime}
+    </select>
+
+
+    <select id="selectStatisticsDataList" resultType="com.weiyun.dto.response.StatisticsDataDTO">
+        select date_format(create_time, '%Y-%m-%d') as 'date',max(detected_count) as maxCount, min(detected_count) as minCount,avg(detected_count) as avgCount
+        from tb_people_count
+        where
+        area_code = #{areaCode}
+        and
+        date(create_time) &gt;= (date(now()) - interval #{interval} day)
+        and
+        date(create_time) &lt; date(now())
+        group by date(create_time)
+    </select>
+
+
+    <select id="selectMaxAndMinCountByAreaCode" resultType="java.util.Map">
+        select max(detected_count) as maxCount, min(detected_count) as minCount
+        from tb_people_count
+        where
+        area_code = #{areaCode}
+        and
+        to_days(create_time) = to_days(now());
     </select>
 
 

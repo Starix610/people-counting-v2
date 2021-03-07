@@ -11,4 +11,5 @@ import com.weiyun.entity.TbArea;
  */
 public interface TbAreaService extends IService<TbArea> {
 
+    void udpateAreaThreshold(Integer areaCode, Integer threshold);
 }

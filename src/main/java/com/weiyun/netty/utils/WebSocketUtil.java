@@ -1,6 +1,6 @@
 // Copyright (C) 2020 Meituan
 // All rights reserved
-package com.weiyun.netty.common;
+package com.weiyun.netty.utils;
 
 import com.weiyun.netty.handler.WebSocketHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

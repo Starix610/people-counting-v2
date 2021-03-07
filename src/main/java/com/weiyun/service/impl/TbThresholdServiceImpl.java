@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weiyun.entity.TbThreshold;
 import com.weiyun.mapper.TbThresholdMapper;
 import com.weiyun.service.TbThresholdService;
-import com.weiyun.task.SaveDetectionResultTask;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +31,5 @@ public class TbThresholdServiceImpl extends ServiceImpl<TbThresholdMapper, TbThr
             record.setThreshold(threshold);
         }
         this.saveOrUpdate(record);
-        // TODO: 2020-06-19 更新阈值配置
-        SaveDetectionResultTask.updateThreshold(threshold);
     }
 }
