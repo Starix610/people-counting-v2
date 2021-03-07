@@ -1,8 +1,8 @@
 spring:
   #暂时使用springboot2.0默认的HikariCP数据源,不做配置
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/people_counting_v2?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/people_counting_v2?characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: xxxx
 
